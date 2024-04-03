@@ -10,6 +10,12 @@ public class App {
 
     private static ArbolBinario<String> arbolBinario = new ArbolBinario<>();
 
+    /**
+     * Método principal de la aplicación.
+     * Carga el diccionario en el árbol binario, traduce palabras y muestra el resultado final.
+     * @param args Argumentos de la línea de comandos (no utilizados).
+     * @throws Exception Si ocurre algún error durante la ejecución.
+     */
     public static void main(String[] args) throws Exception {
         // Se carga el diccionario en el árbol binario
         arbolBinario.cargarDiccionario("diccionario.txt");
@@ -43,6 +49,11 @@ public class App {
         System.out.println("---------------------------------------------");
     }
 
+    /**
+     * Lee palabras de un archivo y las devuelve como una lista.
+     * @param fileName Nombre del archivo del que leer las palabras.
+     * @return Lista de palabras leídas del archivo.
+     */
     public static ArrayList<String> readWordsFromFile(String fileName) {
         ArrayList<String> wordsList = new ArrayList<>();
 
@@ -60,6 +71,12 @@ public class App {
         return wordsList;
     }
 
+    /**
+     * Traduce una lista de palabras utilizando el árbol binario de traducción.
+     * @param palabrasTraducir Lista de palabras a traducir.
+     * @param arbol Árbol binario de traducción.
+     * @return Lista de palabras traducidas.
+     */
     public static ArrayList<String> traducirPalabras(ArrayList<String> palabrasTraducir, ArbolBinario<String> arbol) {
         ArrayList<String> palabrasTraducidas = new ArrayList<>();
         for (String palabra : palabrasTraducir) {
@@ -68,6 +85,11 @@ public class App {
         return palabrasTraducidas;
     }
 
+    /**
+     * Concatena una lista de palabras, manteniendo la puntuación adecuada.
+     * @param palabrasTraducidas Lista de palabras a concatenar.
+     * @return Resultado de la concatenación de palabras.
+     */
     public static String concatenarPalabras(ArrayList<String> palabrasTraducidas) {
         StringBuilder result = new StringBuilder();
 
@@ -92,4 +114,3 @@ public class App {
         return result.toString();
     }
 }
-

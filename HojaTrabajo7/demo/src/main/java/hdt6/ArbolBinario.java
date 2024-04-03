@@ -6,14 +6,28 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Stack;
 
+/**
+ * Representa un árbol binario para almacenar asociaciones de palabras.
+ * @param <E> Tipo de los elementos del árbol.
+ */
 public class ArbolBinario<E extends Comparable<E>> {
 
-    private NodoArbol<E> raiz;
+    private NodoArbol<E> raiz; // Raíz del árbol
 
+    /**
+     * Inserta un conjunto de palabras en el árbol.
+     * @param conjuntoPalabra Conjunto de palabras a insertar.
+     */
     public void insertar(String[] conjuntoPalabra) {
         raiz = insertRec(raiz, conjuntoPalabra);
     }
 
+    /**
+     * Método auxiliar para la inserción recursiva de un conjunto de palabras en el árbol.
+     * @param nodo Nodo actual en el que se está insertando.
+     * @param conjuntoPalabra Conjunto de palabras a insertar.
+     * @return Nodo actualizado después de la inserción.
+     */
     private NodoArbol<E> insertRec(NodoArbol<E> nodo, String[] conjuntoPalabra) {
         if (nodo == null) {
             return new NodoArbol<>(conjuntoPalabra);
@@ -34,12 +48,22 @@ public class ArbolBinario<E extends Comparable<E>> {
     
         return nodo;
     }
-    
 
+    /**
+     * Devuelve la traducción al español de una palabra inglesa.
+     * @param palabraIngles Palabra en inglés a traducir.
+     * @return La traducción al español de la palabra inglesa, o la palabra entre asteriscos si no se encuentra.
+     */
     public String devolverEspanol(String palabraIngles) {
         return devolverEspanolRec(raiz, palabraIngles);
     }
 
+    /**
+     * Método auxiliar para la búsqueda recursiva de la traducción al español de una palabra inglesa.
+     * @param nodo Nodo actual en el que se está buscando.
+     * @param palabraIngles Palabra en inglés a traducir.
+     * @return La traducción al español de la palabra inglesa, o la palabra entre asteriscos si no se encuentra.
+     */
     private String devolverEspanolRec(NodoArbol<E> nodo, String palabraIngles) {
         if (nodo == null) {
             // Verificar si la palabra inglesa es un signo de puntuación
@@ -63,6 +87,10 @@ public class ArbolBinario<E extends Comparable<E>> {
         return (resultadoIzquierdo != null) ? resultadoIzquierdo : resultadoDerecho;
     }
 
+    /**
+     * Carga un diccionario desde un archivo en el árbol.
+     * @param fileName Nombre del archivo que contiene el diccionario.
+     */
     public void cargarDiccionario(String fileName) {
         ArrayList<String[]> listaPalabras = readWordsFromFile(fileName);
         for (String[] conjuntoPalabra : listaPalabras) {
@@ -70,6 +98,11 @@ public class ArbolBinario<E extends Comparable<E>> {
         }
     }
 
+    /**
+     * Lee pares de palabras desde un archivo y las devuelve como una lista de arreglos.
+     * @param fileName Nombre del archivo del que leer las palabras.
+     * @return Lista de pares de palabras leídas del archivo.
+     */
     private ArrayList<String[]> readWordsFromFile(String fileName) {
         ArrayList<String[]> wordPairsList = new ArrayList<>();
 
@@ -99,10 +132,17 @@ public class ArbolBinario<E extends Comparable<E>> {
         return wordPairsList;
     }
 
+    /**
+     * Realiza un recorrido en orden del árbol e imprime las asociaciones palabra-traducción.
+     */
     public void inOrderTraversal() {
         inOrderTraversal(raiz);
     }
 
+    /**
+     * Método auxiliar para realizar un recorrido en orden del árbol e imprimir las asociaciones palabra-traducción.
+     * @param nodo Nodo actual en el que se está realizando el recorrido.
+     */
     private void inOrderTraversal(NodoArbol<E> nodo) {
         if (nodo == null) {
             return;
