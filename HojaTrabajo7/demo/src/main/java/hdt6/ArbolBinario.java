@@ -33,21 +33,26 @@ public class ArbolBinario<E extends Comparable<E>> {
             return new NodoArbol<>(conjuntoPalabra);
         }
         
-        // Insertar recursivamente en el subárbol izquierdo si está vacío
-        if (nodo.getIzquierdo() == null) {
-            nodo.setIzquierdo(new NodoArbol<E>(conjuntoPalabra));
-        } 
-        // Insertar recursivamente en el subárbol derecho si está vacío
-        else if (nodo.getDerecho() == null) {
-            nodo.setDerecho(new NodoArbol<E>(conjuntoPalabra));
-        } 
-        // Si ambos subárboles no están vacíos, insertar en el subárbol izquierdo del hijo izquierdo
+        // Comparar la palabra con la palabra del nodo actual
+        String nodoPalabra = nodo.getConjuntoPalabra(0);
+        int comparacion = conjuntoPalabra[0].compareToIgnoreCase(nodoPalabra);
+        
+        // Insertar en el subárbol izquierdo si la palabra es menor
+        if (comparacion < 0) {
+            nodo.setIzquierdo(insertRec(nodo.getIzquierdo(), conjuntoPalabra));
+        }
+        // Insertar en el subárbol derecho si la palabra es mayor
+        else if (comparacion > 0) {
+            nodo.setDerecho(insertRec(nodo.getDerecho(), conjuntoPalabra));
+        }
+        // Si la palabra ya existe, actualizar su traducción
         else {
-            insertRec(nodo.getIzquierdo(), conjuntoPalabra);
+            nodo.setConjuntoPalabra(conjuntoPalabra);
         }
     
         return nodo;
     }
+    
 
     /**
      * Devuelve la traducción al español de una palabra inglesa.
@@ -76,16 +81,25 @@ public class ArbolBinario<E extends Comparable<E>> {
     
         // Convertir la palabra a minúsculas para una comparación insensible a mayúsculas y minúsculas
         String lowercasePalabraIngles = palabraIngles.toLowerCase();
-        
-        if (nodo.getConjuntoPalabra(0).equalsIgnoreCase(lowercasePalabraIngles)) {
+    
+        // Comparar la palabra inglesa con la palabra del nodo actual
+        String nodoPalabra = nodo.getConjuntoPalabra(0);
+        int comparacion = lowercasePalabraIngles.compareToIgnoreCase(nodoPalabra);
+    
+        // Si las palabras son iguales, devolver la traducción
+        if (comparacion == 0) {
             return nodo.getConjuntoPalabra(1);
         }
-    
-        String resultadoIzquierdo = devolverEspanolRec(nodo.getIzquierdo(), palabraIngles);
-        String resultadoDerecho = devolverEspanolRec(nodo.getDerecho(), palabraIngles);
-    
-        return (resultadoIzquierdo != null) ? resultadoIzquierdo : resultadoDerecho;
+        // Si la palabra inglesa es menor, buscar en el subárbol izquierdo
+        else if (comparacion < 0) {
+            return devolverEspanolRec(nodo.getIzquierdo(), palabraIngles);
+        }
+        // Si la palabra inglesa es mayor, buscar en el subárbol derecho
+        else {
+            return devolverEspanolRec(nodo.getDerecho(), palabraIngles);
+        }
     }
+    
 
     /**
      * Carga un diccionario desde un archivo en el árbol.
